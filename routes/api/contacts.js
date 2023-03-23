@@ -1,21 +1,16 @@
 const { Router } = require('express');
 
-const { 
-  listContactsController,
-  getContactByIdController, 
-  addContactController,
-  removeContactController,
-  updateContactController,
-} = require('../../controllers/contactController');
+const { contacts: ctrl } = require('../../controllers');
 
-const { checkContactId, checkContactData} = require('../../middlewares/contactMiddleware');
+const { contactMiddleware: mdlwr } = require('../../middlewares');
 
 const router = Router();
 
-router.post('/', checkContactData, addContactController);
-router.get('/', listContactsController);
-router.get('/:id', checkContactId, getContactByIdController);
-router.patch('/:id', checkContactId, checkContactData, updateContactController);
-router.delete('/:id', checkContactId, removeContactController);
+router.post('/', mdlwr.checkCreateContactData, ctrl.addContact);
+router.get('/', ctrl.listContacts);
+router.get('/:id', mdlwr.checkContactId, ctrl.getContactById);
+router.patch('/:id',  mdlwr.checkUpdateContactData, ctrl.updateContact);
+router.patch('/:id/favorite',  mdlwr.checkContactId, mdlwr.checkFavoriteContactData, ctrl.updateStatusContact);
+router.delete('/:id', mdlwr.checkContactId, ctrl.removeContact);
 
 module.exports = router;
