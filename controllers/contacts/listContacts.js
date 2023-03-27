@@ -2,9 +2,17 @@ const { Contact } = require('../../models');
 const { catchAsync } = require('../../utils');
 
 const listContacts = catchAsync (async (req, res) => {
-    const contacts = await Contact.find().select('-__v');
+  const { limit, page } = req.query;
+
+    const paginationPage = +page || 1;
+    const paginationLimit = +limit || 20;
+    const skip = (paginationPage - 1) * paginationLimit;
+
+    const contacts = await Contact.find({ favorite: true }).select('-__v').skip(skip).limit(paginationLimit);
+
     res.status(200).json({
-            contacts,
+      count: contacts.length,
+      contacts,
   });
 });
 
