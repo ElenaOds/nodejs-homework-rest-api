@@ -2,9 +2,11 @@ const { Router } = require('express');
 
 const { contacts: ctrl } = require('../../controllers');
 
-const { contactMiddleware: mdlwr } = require('../../middlewares');
+const { contactMiddleware: mdlwr, userMiddleware: mdl } = require('../../middlewares');
 
 const router = Router();
+
+router.use(mdl.protect);
 
 router.post('/', mdlwr.checkCreateContactData, ctrl.addContact);
 router.get('/', ctrl.listContacts);
