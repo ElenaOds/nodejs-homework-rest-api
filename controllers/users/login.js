@@ -7,7 +7,8 @@ const signToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, {expiresIn: p
 const userLogin = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
    
-
+    if(!password) return next(new AppError(401, 'Email or password is wrong'));
+    
     const user = await User.findOne({ email }).select('+password');
 
     if(!user) return next(new AppError(401, 'Email or password is wrong'));
