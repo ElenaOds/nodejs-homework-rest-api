@@ -9,3 +9,4 @@ exports.createUserValidator = (data) => Joi.object()
     password: Joi.string().regex(PASSWD_REGEX).required(),
     subscription: Joi.string().valid("starter", "pro", "business"),
 }).validate(data);
+

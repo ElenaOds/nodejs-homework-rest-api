@@ -17,6 +17,8 @@ const userLogin = catchAsync(async (req, res, next) => {
 
     if(!passwordIsValid) return next(new AppError(401, 'Email or password is wrong'));
 
+    if(!user.verify) return next(new AppError(401, 'Email is not verified'));
+
     user.password = undefined;
     const token = signToken(user.id);
 
