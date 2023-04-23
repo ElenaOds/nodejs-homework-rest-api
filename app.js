@@ -14,6 +14,8 @@ const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
+app.set('view engine', 'pug');
+
 mongoose
 .connect(process.env.MONGO_URL)
 .then((connection) => {

@@ -8,5 +8,5 @@ module.exports = {
     AppError,
     catchAsync,
     contactValidator,
-    userValidator,
+    userValidator
 };
